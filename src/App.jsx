@@ -181,6 +181,17 @@ function App() {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      if (!connected) {
+        connectSocket();
+      } else {
+        sendMessage();
+      }
+    }
+  };
+
   return (
     <div className="container py-4">
       <div className="card shadow-sm p-4 mx-auto" style={{ maxWidth: '900px', width: '100%' }}>
@@ -194,6 +205,7 @@ function App() {
                 placeholder="Enter URL"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
+                onKeyDown={handleKeyDown}
               />
               <button className="btn btn-primary" onClick={connectSocket}>Connect</button>
             </div>
@@ -211,6 +223,7 @@ function App() {
                   placeholder="Enter message"
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
                 />
                 <button className="btn btn-success" onClick={sendMessage}>Send Message</button>
               </div>
@@ -219,7 +232,7 @@ function App() {
               <h5>Messages:</h5>
               <div className="border rounded p-3" style={{ height: '400px', overflowY: 'auto', backgroundColor: '#f8f9fa' }}>
                 {messages.map((msg, idx) => (
-                  <pre key={idx} className="mb-2 p-2 bg-white rounded shadow-sm">{msg}</pre>
+                  <pre key={idx} className="mb-2 p-2 bg-white rounded shadow-sm" style={{ whiteSpace: 'pre-wrap', wordWrap: 'break-word' }}>{msg}</pre>
                 ))}
               </div>
             </div>
